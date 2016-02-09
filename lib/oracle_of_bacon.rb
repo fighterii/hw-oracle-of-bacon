@@ -18,13 +18,16 @@ class OracleOfBacon
   validates_presence_of :to
   validates_presence_of :api_key
   validate :from_does_not_equal_to
-
+  
   def from_does_not_equal_to
     # YOUR CODE HERE
+     errors.add(:from, "From cannot be the same as To") if @from == @to
   end
 
   def initialize(api_key='')
-    # your code here
+    @from = "Kevin Bacon"
+    @to = "Kevin Bacon"
+    @api_key = api_key
   end
 
   def find_connections
