@@ -40,7 +40,9 @@ class OracleOfBacon
       # convert all of these into a generic OracleOfBacon::NetworkError,
       #  but keep the original error message
       # your code here
+      raise OracleOfBacon::NetworkError, e.message
     end
+    Response.new(xml)
     # your code here: create the OracleOfBacon::Response object
   end
 
