@@ -64,12 +64,35 @@ class OracleOfBacon
         parse_error_response
       # your code here: 'elsif' clauses to handle other responses
       # for responses not matching the 3 basic types, the Response
-      # object should have type 'unknown' and data 'unknown response'         
+      # object should have type 'unknown' and data 'unknown response' 
+      elsif ! @doc.xpath('/link').empty?
+        parse_graph_response
+      elsif ! @doc.xpath('/spellcheck').empty?
+        parse_spellcheck_response
+      else
+        parse_unkown_response
       end
     end
     def parse_error_response
       @type = :error
       @data = 'Unauthorized access'
+    end
+    
+    def parse_graph_response
+      @type = :graph
+      @data = (@doc.xpath('//actor').map(&:text).zip(@doc.xpath('//movie').map(&:text))).flatten.compact
+      #debugger
+    end
+    
+    def parse_spellcheck_response
+      @type = :spellcheck
+      @data = @doc.xpath('//match').map(&:text)
+      #debugger
+    end
+    
+    def parse_unkown_responsez
+      @type = :unknown 
+      @data = "unknown response type"
     end
   end
 end
